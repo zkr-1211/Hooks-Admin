@@ -1,39 +1,51 @@
-import welcome from "@/assets/images/welcome01.png";
 import { SetStateAction, useEffect } from "react";
 import "./index.less";
-import TitleInput from "@/components/TitleInput";
+import TopHeader from "./components/TopHeader";
+import RealTimeStatis from "./components/RealTimeStatis";
+import MultiAmountChart from "./components/MultiAmountChart";
+import StatisticsCard from "./components/StatisticsCard";
+import BelieverData from "./components/BelieverData";
+import CarData from "./components/CarData";
+import OrderData from "./components/OrderData";
 import { useState } from "react";
 const Home = () => {
 	const [state, setState] = useState<string>("1");
-	useEffect(() => {
-		console.log(state);
-		setState("2");
-	});
-	const [text, setText] = useState("");
-	useEffect(() => {
-		console.log("text=====", text);
-	}, [text]);
-	const UseComponent = (props: any) => {
-		useEffect(() => {
-			console.log(props);
-		});
-		const onClickTest = () => {
-			console.log(props);
-		};
-		return (
-			<div className="card content-box" onClick={onClickTest}>
-				<span className="text">{props.name} 🍓🍇🍈🍉</span>
-			</div>
-		);
-	};
+	const [topHeaderData, setTopHeaderData] = useState("");
 	return (
 		<div>
-			<TitleInput placeholder="请输入测试文字" isPrepend={true} onInputText={(e: SetStateAction<string>) => setText(e)}>
-				123
-			</TitleInput>
-			<UseComponent name="home" />
-			<div className="home card">
-				<img src={welcome} alt="welcome" />
+			<div className="container">
+				<div className="top-header">
+					<TopHeader data={topHeaderData} />
+				</div>
+				<div className="main-container">
+					{/* 左：捐款统计数据 */}
+					<div className="block-left">
+						<div>
+							<RealTimeStatis />
+						</div>
+						<div>
+							<MultiAmountChart />
+						</div>
+					</div>
+
+					{/* 中: 累计/今日的功德/信众量 */}
+					<div className="block-middle">
+						<StatisticsCard />
+					</div>
+
+					{/* 右：商户数据、数字营销 */}
+					<div className="block-right">
+						<div>
+							<BelieverData />
+						</div>
+						<div>
+							<CarData />
+						</div>
+						<div>
+							<OrderData />
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

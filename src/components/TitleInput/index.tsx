@@ -1,11 +1,23 @@
 import { Input } from "antd";
-import { SetStateAction, useState } from "react";
 import "./index.less";
-const TitleInput = (props: any) => {
+import { useState, FC } from "react";
+interface TitleInputProps {
+	placeholder?: string;
+	isPrepend?: boolean;
+	onInputText: (e: string) => void;
+	children?: any;
+	[key: string]: any;
+}
+const TitleInput: FC<TitleInputProps> = ({
+	placeholder = "",
+	isPrepend = false,
+	onInputText = () => {},
+	children,
+	...restProps
+}) => {
 	const [isFocus, setFocus] = useState(false);
 	const [currentInputText, setCurrentInputText] = useState("");
-	const { placeholder, isPrepend = false, onInputText } = props;
-	const onChange = (e: { target: { value: SetStateAction<string> } }) => {
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setCurrentInputText(e.target.value);
 		onInputText(e.target.value);
 	};
@@ -13,10 +25,12 @@ const TitleInput = (props: any) => {
 		<div className="input-wrapper">
 			<Input
 				placeholder=" "
+				value={currentInputText}
 				onFocus={() => setFocus(true)}
 				onBlur={() => setFocus(false)}
 				onChange={onChange}
-				prefix={isPrepend && props.children}
+				{...restProps}
+				prefix={isPrepend && children}
 			/>
 			{!isPrepend ? (
 				<span
